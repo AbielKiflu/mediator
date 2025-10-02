@@ -1,0 +1,48 @@
+.stepper {
+  list-style: none;
+  display: flex;
+  padding:10px 0;
+  margin: 0;
+  background-color: #fff;
+}
+
+.step{
+  background-color: lavender;
+  padding: .5rem 0;
+  width: 8rem;
+  text-align: center;
+  position: relative;
+  border-right: 14px solid #fff;
+}
+
+.step::after{
+  content: "";
+  position: absolute;
+  right: -24px; 
+  top: 0;
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  border-left: 12px solid lavender;;
+  border-right: 12px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-top: 17px solid transparent;
+  box-sizing: border-box;
+}
+
+.step a {
+  text-decoration: none;
+  color: #6a1b9a;
+}
+
+.step a:hover {
+  color: #4a148c;
+}
+
+.active {
+  font-weight: bold;
+  color: #333;
+}
+

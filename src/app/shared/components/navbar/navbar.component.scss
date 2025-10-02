@@ -1,0 +1,67 @@
+@use '@angular/material' as mat;
+
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 250px;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+ 
+.content {
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  background-color: lavender;
+}
+
+.main {
+  flex: 1 0 auto;
+  overflow-y: auto;
+  
+}
+
+mat-toolbar {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-nav-list a  div{
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+
+.nav-item {
+  margin-bottom: 0.2rem; 
+  @include mat.list-overrides((
+    list-item-label-text-size: 0.875rem,
+    list-item-container-shape: 2px,
+  ));
+}
+
+.nav-item mat-icon[matListIcon] {
+  font-size: 28px;
+  color: #005cbb;
+  margin-right: 0.6rem;
+}
+
+.img-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-image: url('../../../assets/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+}
+
