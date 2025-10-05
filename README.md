@@ -2,7 +2,7 @@
 
 Angular and material design 19
 
-<img width="1905" height="921" alt="image" src="https://github.com/user-attachments/assets/e88e4537-c448-41e2-8902-5847681db6ad" />
+<img width="1908" height="921" alt="image" src="https://github.com/user-attachments/assets/9de887ea-235c-4822-9acf-00d5e1cc5cf9" />
 
 
 
