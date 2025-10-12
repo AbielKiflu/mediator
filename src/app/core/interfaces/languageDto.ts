@@ -1,5 +1,5 @@
 export interface LanguageDto {
     id: number;
-    name: string;
+    description: string;
   }
   

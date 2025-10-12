@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatButtonModule} from '@angular/material/button';
-import { NavbarComponent } from "./shared/components/navbar/navbar.component";
+import { NavbarComponent } from "@shared";
 
 @Component({
   selector: 'app-root',

@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ContainerComponent } from '../../../shared/components/container/container.component';
+import { Component, OnInit, ViewChild,  } from '@angular/core';
+import { ContainerComponent } from '@shared';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -7,8 +7,10 @@ import { UserDto } from '../../../core/interfaces/userDto';
 import { MatButtonModule } from '@angular/material/button';
 import { UserService } from '../user.service';
 import { MatSort } from '@angular/material/sort';
-import { ActionComponent } from '../../../shared/components/action/action.component';
-import { UserRole } from '../../../core/enums/userRole';
+import { ActionComponent } from '@shared';
+import { UserRole } from '@core/enums/userRole';
+import {MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-list',
@@ -19,12 +21,15 @@ import { UserRole } from '../../../core/enums/userRole';
     MatButtonModule,
     MatPaginatorModule,
     ActionComponent,
+    CommonModule,
+    MatProgressSpinnerModule,
     MatSortModule],
   
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent implements OnInit  {
+  isLoading = false;
   UserRole = UserRole;
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'telephone', 'role', 'center', 'languages', 'actions'];
   dataSource!: MatTableDataSource<UserDto>;
@@ -34,12 +39,22 @@ export class UserListComponent implements OnInit  {
 
   constructor(private userService: UserService){}
 
-  ngOnInit(): void {
-    this.userService.getUsers().subscribe(users => {
+ngOnInit(): void {
+  this.isLoading = true;
+
+  this.userService.getUsers().subscribe({
+    next: (users) => {
       this.dataSource = new MatTableDataSource(users);
       this.dataSource.paginator = this.paginator;
-    });
-  }
+      this.isLoading = false;
+    },
+    error: (err) => {
+      console.error('Failed to load users', err);
+      this.isLoading = false;
+    }
+  });
+}
+
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -51,7 +66,7 @@ export class UserListComponent implements OnInit  {
   }
 
   getLanguages(user: UserDto): string {
-    return user.languages.map(l => l.name).join(', ');
+    return user.languages.map(l => l.description).join(', ');
   }
   
 

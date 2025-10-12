@@ -1,31 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'sass:map';
 @use '@angular/material' as mat;
+@use 'styles/redcross-theme' as redcross-theme;
 @include mat.core();
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-$theme : mat.define-theme(
-  (
+$redcross-theme: mat.define-theme((
   color: (
-    theme-type: light,
-    primary: mat.$azure-palette
+    primary: redcross-theme.$primary-palette,
+    tertiary: redcross-theme.$tertiary-palette,
   ),
-  )
-);
+  density: (
+    scale: 0,
+  ),
+));
 
 html {
-  @include mat.core-theme($theme);
-  @include mat.all-component-themes($theme);
-}
+  @include mat.all-component-themes($redcross-theme);
 
-:root {
   @include mat.button-overrides((
     filled-container-height: 2rem,
     filled-container-shape: 5px,
   ));
 
   @include mat.sidenav-overrides((
-    container-background-color: lavender,
+    container-background-color: map.get($redcross-theme, surface-dim),
+  ));
+
+  @include mat.button-overrides((
+    filled-container-height: 2rem,
+    filled-container-shape: 5px,
+  ));
+
+  @include mat.sidenav-overrides((
+    container-background-color: map.get($redcross-theme, surface-dim)
   ));
 }
+
+// Global styles
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
