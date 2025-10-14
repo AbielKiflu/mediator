@@ -5,9 +5,9 @@ import { UserLoginComponent } from "./user-login/user-login.component";
 
 export const userRoutes: Routes = [
     { 
-      path: 'user', 
+      path: 'users', 
       component: UserListComponent,
-      data: { breadcrumb: 'User' },
+      data: { breadcrumb: 'Users' },
       children: [
         { 
           path: 'detail', 

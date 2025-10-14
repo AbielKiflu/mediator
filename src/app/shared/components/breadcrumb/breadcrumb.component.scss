@@ -1,31 +1,36 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../../../../styles/redcross-theme.scss' as redcross-theme;
+
 .stepper {
   list-style: none;
   display: flex;
   padding:10px 0;
   margin: 0;
-  background-color: #fff;
+  background-color: map.get(redcross-theme.$primary-palette, 100);
 }
 
 .step{
-  background-color: lavender;
+  background-color:  map.get(redcross-theme.$primary-palette, 35);
   padding: .5rem 0;
-  width: 8rem;
+  width: 6rem;
   text-align: center;
   position: relative;
-  border-right: 14px solid #fff;
+  outline-width: 0px;
+  border-right: 14px solid map.get(redcross-theme.$primary-palette, 100);
 }
 
 .step::after{
   content: "";
   position: absolute;
-  right: -24px; 
+  right: -23.7px; 
   top: 0;
   padding: 0;
   margin: 0;
   z-index: 1;
   width: 0;
   height: 0;
-  border-left: 12px solid lavender;;
+  border-left: 12px solid  map.get(redcross-theme.$primary-palette, 35);;
   border-right: 12px solid transparent;
   border-bottom: 17px solid transparent;
   border-top: 17px solid transparent;
@@ -34,15 +39,15 @@
 
 .step a {
   text-decoration: none;
-  color: #6a1b9a;
+  color: map.get(redcross-theme.$primary-palette, 100);
 }
 
 .step a:hover {
-  color: #4a148c;
+  color: map.get(redcross-theme.$primary-palette, 100);
 }
 
 .active {
   font-weight: bold;
-  color: #333;
+  color: map.get(redcross-theme.$primary-palette, 95);
 }
 
