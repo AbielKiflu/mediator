@@ -12,10 +12,13 @@ import { DemandService } from '../demand.service';
 import { PriorityBadgeComponent } from 'app/shared/components/priority-badge/priority-badge.component';
 import { DemandStatusChipComponent } from 'app/shared/components/demand-status-chip/demand-status-chip.component';
 import { DemandTypeBadgeComponent } from 'app/shared/components/demand-type-badge/demand-type-badge.component';
+import { LongTextContainerComponent } from 'app/shared/components/long-text-container/long-text-container.component';
+
 
 
 @Component({
   selector: 'app-demand-list',
+  standalone: true,
     imports: [
     ContainerComponent,
     MatPaginator,
@@ -28,14 +31,15 @@ import { DemandTypeBadgeComponent } from 'app/shared/components/demand-type-badg
     MatSortModule,
     PriorityBadgeComponent,
     DemandStatusChipComponent,
-    DemandTypeBadgeComponent
+    DemandTypeBadgeComponent,
+    LongTextContainerComponent
   ],
   templateUrl: './demand-list.component.html',
   styleUrl: './demand-list.component.scss'
 })
 export class DemandListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
-  'description',
+  'subject',
   'priority',
   'status',
   'demandType',
@@ -62,7 +66,6 @@ export class DemandListComponent implements OnInit, AfterViewInit {
   
   
     ngAfterViewInit() {
-      console.log(this.dataSource);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }

@@ -4,6 +4,7 @@ import { DemandType } from "@core/enums/demandType";
 
 export interface DemandSummaryDto {
     id: number;
+    subject:string;
     description: string;
     priority: DemandPriority;
     status: DemandStatus;

@@ -22,6 +22,7 @@ export class DemandService {
   private mapDemand = (d: any): DemandSummaryDto => {
     return {
     id: d.id ?? 0,
+    subject:d.subject??'',
     description: d.description ?? '',
     priority: d.priority in DemandPriority ? d.priority : DemandPriority.Normal,
     status: d.status in DemandStatus ? d.status : DemandStatus.Pending,

@@ -1,4 +1,4 @@
 export enum DemandPriorityColor {
-  Normal = 'black',
-  Urgent = 'red'
+  Normal = '#9E9E9E',
+  Urgent = '#F44336'
 }

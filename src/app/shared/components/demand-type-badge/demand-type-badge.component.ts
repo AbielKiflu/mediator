@@ -19,6 +19,7 @@ export class DemandTypeBadgeComponent {
     typeof type === 'string'
       ? DemandType[type as keyof typeof DemandType]
       : type;
+
   switch (enumVal) {
     case DemandType.Site:
       return DemandTypeIcon.Site;

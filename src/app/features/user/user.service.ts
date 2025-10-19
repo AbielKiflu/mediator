@@ -28,7 +28,7 @@ export class UserService {
   }
   
   getUsers(): Observable<UserDto[]> {
-    return this.http.get<any[]>(`${this.baseUrl}users/filter?role=1`)
+    return this.http.get<any[]>(`${this.baseUrl}/users/filter?role=1`)
       .pipe(
         map(response => response.map(this.mapUser))
       );
