@@ -1,0 +1,73 @@
+<app-container> 
+        <app-action>
+          <button mat-flat-button class="btn" >Create</button>
+        </app-action>
+        <div class="mat-table-responsive">
+          <div *ngIf="isLoading" class="spinner-container">
+              <mat-spinner></mat-spinner>
+          </div>
+        <table *ngIf="!isLoading" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 full-width">
+          <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+        <td mat-cell *matCellDef="let demand"> {{ demand.description }} </td>
+      </ng-container>
+
+      <!-- Priority Column -->
+      <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Priority </th>
+        <td mat-cell *matCellDef="let demand">
+           <app-priority-badge [priority]="demand.priority"></app-priority-badge>
+          </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+        <td mat-cell *matCellDef="let demand"> 
+          <app-demand-status-chip [status]="demand.status"></app-demand-status-chip>
+        </td>
+      </ng-container>
+
+      <!-- Demand Type Column -->
+      <ng-container matColumnDef="demandType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+        <td mat-cell *matCellDef="let demand">
+          <app-demand-type-badge [demandType]="demand.demandType"></app-demand-type-badge>
+        </td>
+      </ng-container>
+
+      <!-- Created Date Column -->
+      <ng-container matColumnDef="createdDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </th>
+        <td mat-cell *matCellDef="let demand"> {{ demand.createdDate | date:'short' }} </td>
+      </ng-container>
+
+      <!-- Created By Column -->
+      <ng-container matColumnDef="createdByUserName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created By </th>
+        <td mat-cell *matCellDef="let demand"> {{ demand.createdByUserName }} </td>
+      </ng-container>
+
+      <!-- Center Name Column -->
+      <ng-container matColumnDef="centerName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Center </th>
+        <td mat-cell *matCellDef="let demand"> {{ demand.centerName || '-' }} </td>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let demand">
+          <button mat-flat-button class="btn" (click)="editDemand(demand)">Edit</button>
+        </td>
+      </ng-container>
+
+      <!-- Header and Row Declarations -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      </div>
+      <mat-paginator *ngIf="!isLoading" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      
+</app-container>
