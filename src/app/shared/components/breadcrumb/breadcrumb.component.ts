@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BreadcrumbService } from './breadcrumb.service';
+import { Crumb } from './crumb';
 
 
 @Component({
@@ -11,5 +12,11 @@ import { BreadcrumbService } from './breadcrumb.service';
   styleUrl: './breadcrumb.component.scss'
 })
 export class BreadcrumbComponent {
-  constructor(public breadcrumbService: BreadcrumbService) {}
+
+  get crumbs(): Crumb[] {
+    return this.breadcrumbService.breadcrumbs;
+    }
+
+  constructor(private breadcrumbService: BreadcrumbService){}
+   
 }

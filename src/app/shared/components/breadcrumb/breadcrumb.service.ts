@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { Crumb } from './crumb';
 
-export interface Crumb {
-  label: string;
-  url: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +23,7 @@ export class BreadcrumbService {
     route: ActivatedRoute,
     url: string = '',
     breadcrumbs: Crumb[] = []
-  ): Crumb[] {
+    ): Crumb[] {
     const children = route.children;
 
     if (children.length === 0) {

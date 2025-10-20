@@ -13,11 +13,11 @@
 .step{
   background-color:  map.get(redcross-theme.$primary-palette, 35);
   padding: .3rem 1rem;
+  margin-right: 1rem;
   text-align: center;
   position: relative;
-  //outline: 1px solid green;
-  border-right: 14px solid map.get(redcross-theme.$primary-palette, 100);
   border-radius: 4px;
+
 }
 
 .step::after{
@@ -30,11 +30,11 @@
   z-index: 1;
   width: 0;
   height: 0;
-  border-radius: 2px;
+  border-radius: 3px;
   border-left: 12px solid  map.get(redcross-theme.$primary-palette, 35);
   border-right: 12px solid transparent;
-  border-bottom: 15px solid transparent;
-  border-top: 15px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-top: 14px solid transparent;
   box-sizing: border-box;
 }
 
@@ -49,7 +49,7 @@
 
 .active {
   font-weight: bold;
-  color: map.get(redcross-theme.$primary-palette, 95);
+  color: map.get(redcross-theme.$primary-palette, 100);
 }
 
 
@@ -58,6 +58,6 @@
 }
 
 .step:last-child::after {
-  border-left: 12px solid  map.get(redcross-theme.$primary-palette, 40);
+  border-left: 13px solid  map.get(redcross-theme.$primary-palette, 40);
 }
 
