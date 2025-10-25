@@ -1,1 +1,54 @@
-<p>demand-create works!</p>
+<!--Create Demand Admin -->
+<h2 mat-dialog-title class="title">Create Demand</h2>
+
+<mat-dialog-content >
+  <form [formGroup]="form" class="content">
+
+    <div class="form-column">
+        <mat-form-field appearance="outline">
+        <mat-label>Subject</mat-label>
+        <input matInput formControlName="subject" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" >
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" ></textarea>
+        </mat-form-field>
+    </div>
+
+    <app-date-time-picker title="Start"></app-date-time-picker>
+    <app-date-time-picker title="Finish"></app-date-time-picker>
+
+    <div class="form-row">
+        <mat-form-field appearance="outline">
+        <mat-label>Priority</mat-label>
+        <mat-select formControlName="priority">
+            <mat-option *ngFor="let p of priorities; index as i" [value]="i">{{ p }}</mat-option>
+        </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="demandType">
+            <mat-option *ngFor="let t of demandTypes; index as i" [value]="i">{{ t }}</mat-option>
+        </mat-select>
+        </mat-form-field>
+  </div>
+ 
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+   <button mat-flat-button color="primary" (click)="onCancel()">
+    Cancel
+  </button>
+  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!form.valid">
+    Save
+  </button>
+</mat-dialog-actions>
+
+<!--Create Demand Client -->
+
+
+
+<!--Create Demand Mediator (Cannot create a demand for the moment) -->

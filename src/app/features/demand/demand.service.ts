@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
-import { DemandSummaryDto } from '@core/interfaces/demandSummaryDto';
 import { MatTableDataSource } from '@angular/material/table';
 import { DemandPriority } from '@core/enums/demandPriority';
 import { DemandStatus } from '@core/enums/demandStatus';
@@ -9,17 +8,18 @@ import { DemandType } from '@core/enums/demandType';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PageResult } from '@core/interfaces/pageResult';
+import { DemandSummary } from './demand-summary.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DemandService {
   private readonly baseUrl = environment.apiUrl;
-  dataSource!: MatTableDataSource<DemandSummaryDto>;
+  dataSource!: MatTableDataSource<DemandSummary>;
 
   constructor(private http: HttpClient) { }
 
-  private mapDemand = (d: any): DemandSummaryDto => {
+  private mapDemand = (d: any): DemandSummary => {
     return {
     id: d.id ?? 0,
     subject:d.subject??'',
@@ -33,9 +33,9 @@ export class DemandService {
     };
   }
 
-loadDemands(pageNumber = 1, pageSize = 10): Observable<PageResult<DemandSummaryDto>> {
+loadDemands(pageNumber = 1, pageSize = 10): Observable<PageResult<DemandSummary>> {
   const url = `${this.baseUrl}/demands?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-  return this.http.get<PageResult<DemandSummaryDto>>(url)
+  return this.http.get<PageResult<DemandSummary>>(url)
   .pipe(
       map(response => ({
         ...response,
