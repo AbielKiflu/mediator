@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,  } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild,  } from '@angular/core';
 import { ContainerComponent } from '@shared';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -28,11 +28,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
-export class UserListComponent implements OnInit  {
+export class UserListComponent implements OnInit, AfterViewInit  {
   isLoading = false;
   UserRole = UserRole;
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'telephone', 'role', 'center', 'languages', 'actions'];
-  dataSource!: MatTableDataSource<UserDto>;
+  dataSource: MatTableDataSource<UserDto> = new MatTableDataSource<UserDto>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

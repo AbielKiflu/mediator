@@ -1,0 +1,19 @@
+<div class="form-row">
+  <mat-form-field appearance="outline">
+    <mat-label>{{title + " date"}}</mat-label>
+    <input matInput [matDatepicker]="datepicker" [(ngModel)]="value">
+    <mat-datepicker #datepicker/>
+    <mat-datepicker-toggle [for]="datepicker" matSuffix/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>{{title + " time"}} </mat-label>
+    <input matInput
+      [matTimepicker]="timepicker"
+      [(ngModel)]="value"
+      [ngModelOptions]="{updateOn: 'blur'}">
+    <mat-timepicker #timepicker/>
+    <mat-timepicker-toggle [for]="timepicker" matSuffix/>
+  </mat-form-field>
+</div>
+
