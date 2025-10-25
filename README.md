@@ -2,15 +2,22 @@
 
 Angular and material design 19
 
-<img width="1908" height="921" alt="image" src="https://github.com/user-attachments/assets/9de887ea-235c-4822-9acf-00d5e1cc5cf9" />
+![alt text](image-1.png)
 
-
+![alt text](image.png)
 
 ## 🚀 Features (Planned)
 - [x] Responsive navigation
 - [x] Breadcrumb
 - [x] Logo and icon design
-- [x] User list
-- [ ] User Login form
+- [x] User list(Admin, clients and mediators)
+- [ ] User Login form(Gmail/outlook)
 - [ ] User Edit form
+
+- [ ] Demand CRUD
+
+- [ ] Integrate maps for centers and mediators live location
+
+- [ ] Guest interaction(residents and workers) show them available mediator in their center 
+
 
