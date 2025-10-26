@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { UserLogin } from '../interfaces/userLogin';
-import { UserLoginResponse } from '../interfaces/userLoginResponse';
+import { UserLogin } from '../../features/user/userLogin';
+import { UserLoginResponse } from '../../features/user/userLoginResponse';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -11,18 +12,20 @@ import { UserLoginResponse } from '../interfaces/userLoginResponse';
 })
 export class AuthService {
 
-  private API_URL = `${environment.apiUrl}/center`; 
-  private JWT_TOKEN : string = 'JwtToken';
-  private ROLE : string = 'Role';
+  private readonly API_URL = environment.apiUrl; 
+  private readonly JWT_TOKEN : string = 'jwt_token';
+  private readonly ROLE : string = 'role';
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
-    
-  constructor(private http: HttpClient){}
 
-  private userRoleSubject = new BehaviorSubject<string | null>(this.getRoleFromStorage());
+    private userRoleSubject = new BehaviorSubject<string | null>(this.getRoleFromStorage());
   userRole$ = this.userRoleSubject.asObservable();
-  
+    
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ){}
 
   login(credentials: UserLogin): Observable<UserLoginResponse> {
     return this.http.post<UserLoginResponse>(`${this.API_URL}/auth/login`, credentials).pipe(
@@ -34,6 +37,7 @@ export class AuthService {
 
         this.isAuthenticatedSubject.next(true);
         this.userRoleSubject.next(this.ROLE);
+         this.router.navigate(['./users']);
       })
     );
   }
@@ -44,13 +48,14 @@ export class AuthService {
     localStorage.removeItem(this.ROLE);
     this.isAuthenticatedSubject.next(false);
     this.userRoleSubject.next(null);
+     this.router.navigate(['./login']);
   }
 
   isAuthenticated(): boolean {
     return this.hasToken();
   }
 
-  getToken(): string | null {
+  getTokenFromStorage(): string | null {
     return localStorage.getItem(this.JWT_TOKEN);
   }
   private getRoleFromStorage(): string | null {
@@ -58,7 +63,7 @@ export class AuthService {
   }
 
   private hasToken(): boolean {
-    return !!this.getToken();
+    return !!this.getTokenFromStorage();
   }
 
   private storeToken(token: string): void {
@@ -67,7 +72,7 @@ export class AuthService {
 
   private storeRole(role : string): void {
     if (role) {
-      localStorage.setItem(this.JWT_TOKEN, role);
+      localStorage.setItem(this.ROLE, role);
     } else {
       localStorage.removeItem(this.ROLE);
     }

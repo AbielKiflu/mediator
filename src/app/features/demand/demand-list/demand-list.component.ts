@@ -82,11 +82,13 @@ export class DemandListComponent implements OnInit, AfterViewInit {
 
   
     editDemand(demand: DemandSummary) {
-       const dialogRef = this.dialog.open(DemandCreateComponent);
+    }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    createDemand() {
+      const dialogRef = this.dialog.open(DemandCreateComponent);
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
     }
 
     onPageChange(event: any): void {

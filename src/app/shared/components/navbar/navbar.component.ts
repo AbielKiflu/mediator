@@ -11,7 +11,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import {FooterComponent} from '@shared';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 import { RouterOutlet } from '@angular/router';
-
+import {AuthService} from '@core/services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -33,8 +34,12 @@ import { RouterOutlet } from '@angular/router';
 })
 export class NavbarComponent {
   isHandset: boolean = false;
+  isLoggedIn$:  Observable<boolean>;;
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private authService: AuthService
+  ) {
     
     this.breakpointObserver.observe([Breakpoints.Handset])
       .pipe(
@@ -42,6 +47,8 @@ export class NavbarComponent {
         shareReplay()
       )
       .subscribe(isHandset => this.isHandset = isHandset);
+
+      this.isLoggedIn$ = authService.isAuthenticated$;
 }
 
   goToSettings() {
@@ -49,7 +56,7 @@ export class NavbarComponent {
   }
 
   logout() {
-    // Perform logout logic
+    this.authService.logout();
   }
 
 }

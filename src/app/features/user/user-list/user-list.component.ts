@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild,  } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild,inject  } from '@angular/core';
 import { ContainerComponent } from '@shared';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { UserDto } from '../../../core/interfaces/userDto';
+import { UserDto } from '../userDto';
 import { MatButtonModule } from '@angular/material/button';
 import { UserService } from '../user.service';
 import { MatSort } from '@angular/material/sort';
@@ -11,6 +11,8 @@ import { ActionComponent } from '@shared';
 import { UserRole } from '@core/enums/userRole';
 import {MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { CommonModule } from '@angular/common';
+import { UserCreateComponent } from '../user-create/user-create.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-list',
@@ -22,6 +24,7 @@ import { CommonModule } from '@angular/common';
     MatPaginatorModule,
     ActionComponent,
     CommonModule,
+    MatDialogModule,
     MatProgressSpinnerModule,
     MatSortModule],
   
@@ -31,6 +34,7 @@ import { CommonModule } from '@angular/common';
 export class UserListComponent implements OnInit, AfterViewInit  {
   isLoading = false;
   UserRole = UserRole;
+  readonly dialog = inject(MatDialog);
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'telephone', 'role', 'center', 'languages', 'actions'];
   dataSource: MatTableDataSource<UserDto> = new MatTableDataSource<UserDto>([]);
 
@@ -55,6 +59,12 @@ ngOnInit(): void {
   });
 }
 
+    createUser() {
+      const dialogRef = this.dialog.open(UserCreateComponent);
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+    }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

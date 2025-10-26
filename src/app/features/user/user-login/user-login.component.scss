@@ -1,0 +1,78 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+
+  .content {
+    background: #fff;
+    padding: 3rem 2rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    transition: all 0.3s ease;
+
+    .img-icon {
+    width: 8rem;
+    height: 8rem;
+    display: block;
+    background-image: url('../../../assets/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: block;
+}
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    mat-form-field {
+      width: 100%;
+
+      .mat-mdc-text-field-wrapper {
+        border-radius: 0.75rem;
+      }
+
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none; // hide hint/error space if not used
+      }
+    }
+
+    button {
+      align-self: flex-end;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+
+      &:hover {
+        box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+      }
+
+      &:active {
+        transform: scale(0.97);
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .login-container {
+    .content {
+      padding: 1.5rem;
+      border-radius: 1rem;
+      gap: 1rem;
+
+      button {
+        width: 100%;
+        align-self: center;
+      }
+    }
+  }
+}

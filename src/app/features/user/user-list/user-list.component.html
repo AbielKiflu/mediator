@@ -1,6 +1,6 @@
 <app-container> 
         <app-action>
-          <button mat-flat-button class="btn" >Create</button>
+          <button mat-flat-button class="btn" (click)="createUser()">Create</button>
         </app-action>
         <div class="mat-table-responsive">
           <div *ngIf="isLoading" class="spinner-container">
