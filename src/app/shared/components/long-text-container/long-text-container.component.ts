@@ -11,8 +11,8 @@ import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
   styleUrl: './long-text-container.component.scss'
 })
 export class LongTextContainerComponent {
-  @Input() subject: string = "";
-  @Input() description: string = "";
+  @Input() display: string = "";
+  @Input() tooltip: string = "";
 
   constructor(){}
 
