@@ -23,7 +23,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateTimePickerComponent {
-  @Input() title: string = 'Date time';
+  @Input() title: string = '_';
   @Input() value: Date = new Date();
 
   constructor(){}

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild,inject  } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild  } from '@angular/core';
 import { ContainerComponent } from '@shared';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -13,6 +13,7 @@ import {MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { CommonModule } from '@angular/common';
 import { UserCreateComponent } from '../user-create/user-create.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { UserUpdateComponent } from '../user-update/user-update.component';
 
 @Component({
   selector: 'app-user-list',
@@ -34,22 +35,36 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 export class UserListComponent implements OnInit, AfterViewInit  {
   isLoading = false;
   UserRole = UserRole;
-  readonly dialog = inject(MatDialog);
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'telephone', 'role', 'center', 'languages', 'actions'];
   dataSource: MatTableDataSource<UserDto> = new MatTableDataSource<UserDto>([]);
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService){}
+  constructor(
+    private userService: UserService,
+    private dialog: MatDialog
+  ){}
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 
 ngOnInit(): void {
+this.loadUserList();
+}
+  loadUserList() {
   this.isLoading = true;
 
   this.userService.getUsers().subscribe({
     next: (users) => {
       this.dataSource = new MatTableDataSource(users);
-      this.dataSource.paginator = this.paginator;
+    if (this.paginator) {
+                this.dataSource.paginator = this.paginator;
+            }
+            if (this.sort) {
+                this.dataSource.sort = this.sort; 
+            }
       this.isLoading = false;
     },
     error: (err) => {
@@ -57,22 +72,21 @@ ngOnInit(): void {
       this.isLoading = false;
     }
   });
-}
+  }
 
     createUser() {
       const dialogRef = this.dialog.open(UserCreateComponent);
       dialogRef.afterClosed().subscribe(result => {
-        console.log(`Dialog result: ${result}`);
+        this.loadUserList();
       });
     }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
 
-  editUser(user: UserDto) {
-    console.log('Edit:', user);
+  editUser(user: Partial<UserDto>) {
+     const dialogRef = this.dialog.open(UserUpdateComponent,{data:user || {}});
+      dialogRef.afterClosed().subscribe(result => {
+        this.loadUserList();
+      });
   }
 
   getLanguages(user: UserDto): string {

@@ -1,0 +1,35 @@
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.content{
+  display: flex;
+  min-width: 30rem;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: .5rem;
+}
+
+
+.mat-form-field {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.form-row > * {
+  flex: 1; 
+}

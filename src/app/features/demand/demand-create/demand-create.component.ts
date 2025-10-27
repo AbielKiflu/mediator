@@ -63,6 +63,7 @@ export class DemandCreateComponent {
 
   onSubmit() {
     if (this.form.valid) {
+      console.log(this.form.value);
       this.dialogRef.close(this.form.value as DemandCreate);
     }
   }
