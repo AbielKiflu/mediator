@@ -13,11 +13,11 @@ export * from './guards/authGuard';
 export * from './interceptors/auth.interceptor';
 
 // Interfaces
-export * from './interfaces/centerDto';
-export * from './interfaces/languageDto';
-export * from './interfaces/userDto';
-export * from './interfaces/userLogin';
-export * from './interfaces/userLoginResponse';
+export * from './services/centerDto';
+export * from './services/languageDto';
+export * from '../features/user/userDto';
+export * from '../features/user/userLogin';
+export * from '../features/user/userLoginResponse';
 
 // Enums
 export * from './enums/userRole';

@@ -1,1 +1,19 @@
-<p>user-login works!</p>
+<div class="login-container">
+    <form [formGroup]="login" class="content" (ngSubmit)="onSubmit()">
+         <span class="img-icon"></span>
+        <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" >
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" >
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" [disabled]="!login.valid">
+            Login
+        </button>
+   
+    </form>
+</div>

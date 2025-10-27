@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CenterDto } from '../interfaces/centerDto';
+import { CenterDto } from './centerDto';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 })
 export class CenterService {
 
-  private baseUrl = `${environment.apiUrl}/center`; 
+  private baseUrl = `${environment.apiUrl}/centers`; 
 
   constructor(private http: HttpClient){}
 

@@ -1,6 +1,6 @@
 <app-container> 
         <app-action>
-          <button mat-flat-button class="btn" >Create</button>
+          <button mat-flat-button class="btn"  (click)="createDemand()" >Create</button>
         </app-action>
         <div class="mat-table-responsive">
           <div *ngIf="isLoading" class="spinner-container">
@@ -11,7 +11,7 @@
       <ng-container matColumnDef="subject">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Subject </th>
         <td mat-cell *matCellDef="let demand">
-          <app-long-text-container [description]="demand.description" [subject]="demand.subject"></app-long-text-container>
+          <app-long-text-container [tooltip]="demand.description" [display]="demand.subject"></app-long-text-container>
         </td>
       </ng-container>
 

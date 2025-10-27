@@ -5,6 +5,7 @@ import { demandRoutes } from './features/demand/demand.route';
 export const routes: Routes = 
         [
             ... userRoutes,
-            ...demandRoutes
+            ...demandRoutes,
+            {path:'**', redirectTo:'login'}
         ];
 

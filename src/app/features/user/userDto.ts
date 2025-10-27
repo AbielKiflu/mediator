@@ -1,6 +1,6 @@
-import { UserRole } from "../enums/userRole";
-import { CenterDto } from "./centerDto";
-import { LanguageDto } from "./languageDto";
+import { UserRole } from "../../core/enums/userRole";
+import { CenterDto } from "../../core/services/centerDto";
+import { LanguageDto } from "../../core/services/languageDto";
 
 export interface UserDto {
     lastName: string;
