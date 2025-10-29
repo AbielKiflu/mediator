@@ -1,4 +1,4 @@
-export interface KeyValue {
+export interface EnumKeyValue {
   key: number;
   value: string;
 }

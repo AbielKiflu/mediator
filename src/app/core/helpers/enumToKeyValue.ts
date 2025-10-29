@@ -1,6 +1,6 @@
 import { EnumKeyValue } from "./keyValue";
 
-//This function helps convert an enum to key value to bind it easily into select element
+//This function helps convert an enum to key value to bind it easily into select element (for the moment the enums are keyvalues from 0)
 export const getEnumValues = (enumObject: any): EnumKeyValue[] => {
     const keys = Object.keys(enumObject).filter(key => isNaN(Number(key)));
     return keys.map(key => ({

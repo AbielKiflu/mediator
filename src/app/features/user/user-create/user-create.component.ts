@@ -66,7 +66,11 @@ export class UserCreateComponent implements OnInit {
   }
   
 
-  onSubmit() { }
+  onSubmit() { 
+    if (this.userForm.valid) {
+      console.table(this.userForm.value);
+    }
+  }
 
   onCancel() { 
       this.dialogRef.close();
