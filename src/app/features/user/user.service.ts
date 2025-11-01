@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
 import { UserCreateModel } from './user-create-model';
+import { UserUpdateModel } from './user-update-model';
 
 
 @Injectable({
@@ -15,6 +16,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
   private mapUser(u: any): UserDto {
     return {
+      id: u.id ?? 0,
       firstName: u.firstName ?? '',
       lastName: u.lastName ?? '',
       telephone: u.telephone ?? '',
@@ -37,6 +39,10 @@ export class UserService {
 
   postUser(user: UserCreateModel): Observable<any> {
     return this.http.post(`${this.baseUrl}/users`, user);
+  }
+
+  putUser(user: UserUpdateModel): Observable<any> {
+    return this.http.put(`${this.baseUrl}/users`, user);
   }
 
 }

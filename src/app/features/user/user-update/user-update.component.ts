@@ -8,7 +8,9 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { map } from 'rxjs';
+import { RoleOption } from '@core/interfaces/RoleOption';
+import { UserUpdateModel } from '../user-update-model';
+
 
 @Component({
   selector: 'app-user-update',
@@ -30,7 +32,7 @@ export class UserUpdateComponent implements OnInit{
   centers: CenterDto[] = [];
   languages: LanguageDto[] = [];
   selectedLanguages: LanguageDto[] = [];
-
+  userId: number = 0;
   roleOptions: RoleOption[] = Object.keys(UserRole)
     .filter(key => isNaN(Number(key))) 
     .map(key => ({
@@ -63,11 +65,37 @@ export class UserUpdateComponent implements OnInit{
   }
 
   onSubmit() { 
+  if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
+      return;
+    }
+    const formValue = this.userForm.value;
 
+    const userUpdate: UserUpdateModel = {
+      id: this.userId,
+      firstName: formValue.firstName,
+      lastName: formValue.lastName,
+      telephone: formValue.telephone,
+      centerId: formValue.centerId,
+      userRole: formValue.userRole,
+      languages: this.selectedLanguages,
+    };
+    this.userService.putUser(userUpdate).subscribe({
+      next: (response) => {
+        console.log('User updated successfully', response);
+        this.dialogRef.close(true);
+      },
+      error: (error) => {
+        console.error('User update failed', error);
+      }
+    });
+    console.log('Submitting Update user:', userUpdate);
+    this.dialogRef.close(userUpdate);
   }
 
  private initForm(): void {
     const initialRole: UserRole = (this.data?.userRole ?? UserRole.Mediator) as UserRole;
+    this.userId = this.data?.id ?? 0;
     this.userForm = this.fb.group({
       firstName: [this.data?.firstName || '', Validators.required],
       lastName: [this.data?.lastName || '', Validators.required],
@@ -116,9 +144,4 @@ export class UserUpdateComponent implements OnInit{
     });
   }
 
-}
-
-interface RoleOption {
-  value: UserRole; 
-  viewValue: string;
 }
