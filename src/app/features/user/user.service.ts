@@ -3,6 +3,7 @@ import { UserDto } from './userDto';
 import { map, Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
+import { UserCreate } from './UserCreate';
 
 
 @Injectable({
@@ -28,10 +29,14 @@ export class UserService {
   }
   
   getUsers(): Observable<UserDto[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/users/filter?role=1`)
+    return this.http.get<any[]>(`${this.baseUrl}/users/filter`) ///users/filter?role=1
       .pipe(
         map(response => response.map(this.mapUser))
-      );
+      );  
+    }
+
+  postUser(user: UserCreate): Observable<any> {
+    return this.http.post(`${this.baseUrl}/users`, user);
   }
 
 }
