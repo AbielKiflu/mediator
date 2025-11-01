@@ -1,6 +1,6 @@
 import { LanguageDto, UserRole } from "@core/index";
 
-export interface UserCreate {
+export interface UserCreateModel {
   lastName: string;
   firstName: string;
   telephone: string;

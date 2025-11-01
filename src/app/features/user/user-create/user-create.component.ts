@@ -1,14 +1,14 @@
-import { Component, OnInit,Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule,FormBuilder,Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef,MAT_DIALOG_DATA  } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef  } from '@angular/material/dialog';
 import { CenterDto, CenterService, LanguageDto, LanguageService, UserRole } from '@core/index';
-import { UserCreate } from '../UserCreate';
 import { UserService } from '../user.service';
+import { UserCreateModel } from '../user-create-model';
 
 @Component({
   selector: 'app-user-create',
@@ -38,8 +38,7 @@ export class UserCreateComponent implements OnInit {
     private centerService: CenterService,
     private languageService: LanguageService,
     private userService: UserService,
-    public dialogRef: MatDialogRef<UserCreateComponent>,
-    @Inject(MAT_DIALOG_DATA) public data?: Partial<UserCreate>
+    public dialogRef: MatDialogRef<UserCreateComponent>
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +55,7 @@ export class UserCreateComponent implements OnInit {
     }
     const formValue = this.userForm.value;
 
-    const userCreate: UserCreate = {
+    const userCreate: UserCreateModel = {
       firstName: formValue.firstName,
       lastName: formValue.lastName,
       telephone: formValue.telephone,
@@ -86,16 +85,16 @@ export class UserCreateComponent implements OnInit {
 
  private initForm(): void {
     this.userForm = this.fb.group({
-      firstName: [this.data?.firstName || '', Validators.required],
-      lastName: [this.data?.lastName || '', Validators.required],
-      telephone: [this.data?.telephone || '', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      telephone: ['', Validators.required],
       email: [
-        this.data?.email || '',
+        '',
         [Validators.required, Validators.email],
       ],
-      centerId: [this.data?.centerId || null, Validators.required],
-      userRole: [this.data?.userRole || UserRole.Client, Validators.required],
-      languages: [this.data?.languages || [], Validators.required],
+      centerId: [null, Validators.required],
+      userRole: [UserRole.Client, Validators.required],
+      languages: [[], Validators.required],
     });
   }
 

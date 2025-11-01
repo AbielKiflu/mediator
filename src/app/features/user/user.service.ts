@@ -3,7 +3,7 @@ import { UserDto } from './userDto';
 import { map, Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
-import { UserCreate } from './UserCreate';
+import { UserCreateModel } from './user-create-model';
 
 
 @Injectable({
@@ -35,7 +35,7 @@ export class UserService {
       );  
     }
 
-  postUser(user: UserCreate): Observable<any> {
+  postUser(user: UserCreateModel): Observable<any> {
     return this.http.post(`${this.baseUrl}/users`, user);
   }
 
