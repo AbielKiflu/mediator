@@ -45,6 +45,11 @@ export class UserListComponent implements OnInit, AfterViewInit  {
     private dialog: MatDialog
   ){}
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
 ngOnInit(): void {
 this.loadUserList();
 }
@@ -54,7 +59,12 @@ this.loadUserList();
   this.userService.getUsers().subscribe({
     next: (users) => {
       this.dataSource = new MatTableDataSource(users);
-      this.dataSource.paginator = this.paginator;
+    if (this.paginator) {
+                this.dataSource.paginator = this.paginator;
+            }
+            if (this.sort) {
+                this.dataSource.sort = this.sort; 
+            }
       this.isLoading = false;
     },
     error: (err) => {
@@ -71,10 +81,6 @@ this.loadUserList();
       });
     }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
 
   editUser(user: Partial<UserDto>) {
      const dialogRef = this.dialog.open(UserUpdateComponent,{data:user || {}});

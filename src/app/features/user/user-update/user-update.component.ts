@@ -56,6 +56,9 @@ export class UserUpdateComponent implements OnInit{
     this.initForm();
     this.loadCenters();
     this.loadLanguages();
+    if (this.data?.languages) {
+        this.selectedLanguages = [...this.data.languages];
+    }
   }
 
 
@@ -90,7 +93,7 @@ export class UserUpdateComponent implements OnInit{
       }
     });
     console.log('Submitting Update user:', userUpdate);
-    this.dialogRef.close(userUpdate);
+    this.dialogRef.close(false);
   }
 
  private initForm(): void {
