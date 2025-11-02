@@ -10,6 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RoleOption } from '@core/interfaces/RoleOption';
 import { UserUpdateModel } from '../user-update-model';
+import { DateTimePickerComponent } from 'app/shared/components/date-time-picker/date-time-picker.component';
+import { UserLoggedModel } from '../user-logged-model';
 
 
 @Component({
@@ -22,7 +24,8 @@ import { UserUpdateModel } from '../user-update-model';
     MatInputModule,
     MatSelectModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    DateTimePickerComponent
   ],
   templateUrl: './user-update.component.html',
   styleUrl: './user-update.component.scss'
@@ -33,6 +36,7 @@ export class UserUpdateComponent implements OnInit{
   languages: LanguageDto[] = [];
   selectedLanguages: LanguageDto[] = [];
   userId: number = 0;
+  currentUser : UserLoggedModel | null = null;
   roleOptions: RoleOption[] = Object.keys(UserRole)
     .filter(key => isNaN(Number(key))) 
     .map(key => ({
@@ -56,6 +60,7 @@ export class UserUpdateComponent implements OnInit{
     this.initForm();
     this.loadCenters();
     this.loadLanguages();
+    this.currentUser = this.userService.getCurrentUser();
     if (this.data?.languages) {
         this.selectedLanguages = [...this.data.languages];
     }

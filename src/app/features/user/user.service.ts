@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { UserDto } from './userDto';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
 import { UserCreateModel } from './user-create-model';
 import { UserUpdateModel } from './user-update-model';
+import { UserLoggedModel } from './user-logged-model';
 
 
 @Injectable({
@@ -12,6 +13,8 @@ import { UserUpdateModel } from './user-update-model';
 })
 export class UserService {
   private readonly baseUrl = environment.apiUrl;
+  private userSource = new BehaviorSubject<UserLoggedModel | null>(null);
+  currentUser = this.userSource.asObservable();
   
   constructor(private http: HttpClient) {}
   private mapUser(u: any): UserDto {
@@ -28,6 +31,15 @@ export class UserService {
       userRole: u.userRole,
       languages: u.languages ?? []
     };
+  }
+
+  setCurrentUser(user: UserLoggedModel) {
+    this.userSource.next(user);
+  }
+
+  // Get current user (optional)
+  getCurrentUser(): UserLoggedModel | null {
+    return this.userSource.value;
   }
   
   getUsers(): Observable<UserDto[]> {

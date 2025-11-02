@@ -25,16 +25,18 @@
               {{ l.description }}
             </mat-option>
         </mat-select>
-        
-  </mat-form-field>
-    </div>
+    </mat-form-field>
 
-    <div class="form-row">
-        <mat-form-field appearance="outline">
+     <mat-form-field appearance="outline">
         <mat-label>Telephone</mat-label>
         <input matInput formControlName="telephone" />
-        </mat-form-field>
-  </div>
+      </mat-form-field>
+
+    <app-date-time-picker title="Start" *ngIf="this.currentUser?.id === userId"/>
+    <app-date-time-picker title="Finish" *ngIf="this.currentUser?.id === userId"/>
+
+    </div>
+
 
       <div class="form-row">
         <mat-form-field appearance="outline">
