@@ -46,6 +46,9 @@ export class UserListComponent implements OnInit, AfterViewInit  {
   ){}
 
 ngOnInit(): void {
+this.loadUserList();
+}
+  loadUserList() {
   this.isLoading = true;
 
   this.userService.getUsers().subscribe({
@@ -59,12 +62,12 @@ ngOnInit(): void {
       this.isLoading = false;
     }
   });
-}
+  }
 
     createUser() {
       const dialogRef = this.dialog.open(UserCreateComponent);
       dialogRef.afterClosed().subscribe(result => {
-        console.log(`Dialog result: ${result}`);
+        this.loadUserList();
       });
     }
 
@@ -74,8 +77,10 @@ ngOnInit(): void {
   }
 
   editUser(user: Partial<UserDto>) {
-    console.log('Edit:', user);
-    this.dialog.open(UserUpdateComponent,{data:user || {}});
+     const dialogRef = this.dialog.open(UserUpdateComponent,{data:user || {}});
+      dialogRef.afterClosed().subscribe(result => {
+        this.loadUserList();
+      });
   }
 
   getLanguages(user: UserDto): string {

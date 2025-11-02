@@ -9,6 +9,7 @@ import { MatDialogModule, MatDialogRef  } from '@angular/material/dialog';
 import { CenterDto, CenterService, LanguageDto, LanguageService, UserRole } from '@core/index';
 import { UserService } from '../user.service';
 import { UserCreateModel } from '../user-create-model';
+import { RoleOption } from '@core/interfaces/RoleOption';
 
 @Component({
   selector: 'app-user-create',
@@ -29,10 +30,12 @@ export class UserCreateComponent implements OnInit {
   centers: CenterDto[] = [];
   languages: LanguageDto[] = [];
   selectedLanguages: LanguageDto[] = [];
-  roles = Object.values(UserRole).filter(
-    (v) => typeof v === 'string'
-  ) as string[];
-
+  roleOptions: RoleOption[] = Object.keys(UserRole)
+    .filter(key => isNaN(Number(key))) 
+    .map(key => ({
+      value: UserRole[key as keyof typeof UserRole], 
+      viewValue: key 
+    }));
   constructor(
     private fb: FormBuilder,
     private centerService: CenterService,
@@ -96,6 +99,12 @@ export class UserCreateComponent implements OnInit {
       userRole: [UserRole.Client, Validators.required],
       languages: [[], Validators.required],
     });
+  }
+
+  onRoleChange(event: MatSelectChange): void{
+    const selectedId = event.value;
+    const roleName = UserRole[selectedId as keyof typeof UserRole];
+    console.info("Selected role Name:", roleName);
   }
 
   onLanguageChange(event: MatSelectChange): void {
