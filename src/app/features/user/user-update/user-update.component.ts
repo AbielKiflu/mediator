@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UserService } from '../user.service';
+import { CenterDto, CenterService, LanguageDto, LanguageService, UserDto, UserRole } from '@core/index';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { FormGroup, ReactiveFormsModule,FormBuilder,Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef  } from '@angular/material/dialog';
-import { CenterDto, CenterService, LanguageDto, LanguageService, UserRole } from '@core/index';
-import { UserService } from '../user.service';
-import { UserCreateModel } from '../user-create-model';
 import { RoleOption } from '@core/interfaces/RoleOption';
+import { UserUpdateModel } from '../user-update-model';
+import { DateTimePickerComponent } from 'app/shared/components/date-time-picker/date-time-picker.component';
+import { UserLoggedModel } from '../user-logged-model';
+
 
 @Component({
-  selector: 'app-user-create',
+  selector: 'app-user-update',
+  standalone: true, 
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -20,86 +24,99 @@ import { RoleOption } from '@core/interfaces/RoleOption';
     MatInputModule,
     MatSelectModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    DateTimePickerComponent
   ],
-  templateUrl: './user-create.component.html',
-  styleUrl: './user-create.component.scss'
+  templateUrl: './user-update.component.html',
+  styleUrl: './user-update.component.scss'
 })
-export class UserCreateComponent implements OnInit {
+export class UserUpdateComponent implements OnInit{
   userForm!: FormGroup;
   centers: CenterDto[] = [];
   languages: LanguageDto[] = [];
   selectedLanguages: LanguageDto[] = [];
+  userId: number = 0;
+  currentUser : UserLoggedModel | null = null;
   roleOptions: RoleOption[] = Object.keys(UserRole)
     .filter(key => isNaN(Number(key))) 
     .map(key => ({
       value: UserRole[key as keyof typeof UserRole], 
       viewValue: key 
     }));
+
+
+
   constructor(
     private fb: FormBuilder,
+    private userService: UserService,
     private centerService: CenterService,
     private languageService: LanguageService,
-    private userService: UserService,
-    public dialogRef: MatDialogRef<UserCreateComponent>
-  ) {}
+    public dialogRef: MatDialogRef<UserUpdateComponent>,
+    @Inject(MAT_DIALOG_DATA) public data?: Partial<UserDto>
+  ){}
+
 
   ngOnInit(): void {
     this.initForm();
     this.loadCenters();
     this.loadLanguages();
-  }
-  
-
-  onSubmit() { 
-     if (this.userForm.invalid) {
-      this.userForm.markAllAsTouched();
-      return;
+    this.currentUser = this.userService.getCurrentUser();
+    if (this.data?.languages) {
+        this.selectedLanguages = [...this.data.languages];
     }
-    const formValue = this.userForm.value;
-
-    const userCreate: UserCreateModel = {
-      firstName: formValue.firstName,
-      lastName: formValue.lastName,
-      telephone: formValue.telephone,
-      email: formValue.email,
-      centerId: formValue.centerId,
-      userRole: formValue.userRole,
-      languages: this.selectedLanguages,
-    };
-    this.userService.postUser(userCreate).subscribe({
-      next: (response) => {
-        console.log('User created successfully', response);
-        this.dialogRef.close(true);
-      },
-      error: (error) => {
-        console.error('User creation failed', error);
-      }
-    });
-    console.log('Submitting UserCreate:', userCreate);
-    this.dialogRef.close(userCreate);
   }
 
- 
+
 
   onCancel() { 
       this.dialogRef.close();
   }
 
+  onSubmit() { 
+  if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
+      return;
+    }
+    const formValue = this.userForm.value;
+
+    const userUpdate: UserUpdateModel = {
+      id: this.userId,
+      firstName: formValue.firstName,
+      lastName: formValue.lastName,
+      telephone: formValue.telephone,
+      centerId: formValue.centerId,
+      userRole: formValue.userRole,
+      languages: this.selectedLanguages,
+    };
+    this.userService.putUser(userUpdate).subscribe({
+      next: (response) => {
+        console.log('User updated successfully', response);
+        this.dialogRef.close(true);
+      },
+      error: (error) => {
+        console.error('User update failed', error);
+      }
+    });
+    console.log('Submitting Update user:', userUpdate);
+    this.dialogRef.close(false);
+  }
+
  private initForm(): void {
+    const initialRole: UserRole = (this.data?.userRole ?? UserRole.Mediator) as UserRole;
+    this.userId = this.data?.id ?? 0;
     this.userForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      telephone: ['', Validators.required],
+      firstName: [this.data?.firstName || '', Validators.required],
+      lastName: [this.data?.lastName || '', Validators.required],
+      telephone: [this.data?.telephone || '', Validators.required],
       email: [
-        '',
+        this.data?.email || '',
         [Validators.required, Validators.email],
       ],
-      centerId: [null, Validators.required],
-      userRole: [UserRole.Client, Validators.required],
-      languages: [[], Validators.required],
+      centerId: [this.data?.center?.id || null, Validators.required],
+      userRole: [ UserRole[initialRole], Validators.required], 
+      languages: [this.data?.languages?.map(l => l.id) || [], Validators.required],
     });
-  }
+  }  
 
   onRoleChange(event: MatSelectChange): void{
     const selectedId = event.value;
@@ -134,4 +151,5 @@ export class UserCreateComponent implements OnInit {
       error: (e) => console.error('Languages load error', e),
     });
   }
+
 }

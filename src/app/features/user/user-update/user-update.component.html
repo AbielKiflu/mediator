@@ -1,9 +1,10 @@
-<h2 mat-dialog-title class="title">Create User</h2>
+<h2 mat-dialog-title class="title">Update User</h2>
 
 <mat-dialog-content >
   <form [formGroup]="userForm" class="content">
 
     <div class="form-column">
+
         <mat-form-field appearance="outline">
         <mat-label>First Name</mat-label>
         <input matInput formControlName="firstName" />
@@ -24,21 +25,18 @@
               {{ l.description }}
             </mat-option>
         </mat-select>
-        
-  </mat-form-field>
-    </div>
+    </mat-form-field>
 
-    <div class="form-row">
-        <mat-form-field appearance="outline">
+     <mat-form-field appearance="outline">
         <mat-label>Telephone</mat-label>
         <input matInput formControlName="telephone" />
-        </mat-form-field>
+      </mat-form-field>
 
-        <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" />
-        </mat-form-field>
-  </div>
+    <app-date-time-picker title="Start" *ngIf="this.currentUser?.id === userId"/>
+    <app-date-time-picker title="Finish" *ngIf="this.currentUser?.id === userId"/>
+
+    </div>
+
 
       <div class="form-row">
         <mat-form-field appearance="outline">

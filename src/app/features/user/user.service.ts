@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { UserDto } from './userDto';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
+import { UserCreateModel } from './user-create-model';
+import { UserUpdateModel } from './user-update-model';
+import { UserLoggedModel } from './user-logged-model';
 
 
 @Injectable({
@@ -10,10 +13,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UserService {
   private readonly baseUrl = environment.apiUrl;
+  private userSource = new BehaviorSubject<UserLoggedModel | null>(null);
+  currentUser = this.userSource.asObservable();
   
   constructor(private http: HttpClient) {}
   private mapUser(u: any): UserDto {
     return {
+      id: u.id ?? 0,
       firstName: u.firstName ?? '',
       lastName: u.lastName ?? '',
       telephone: u.telephone ?? '',
@@ -26,12 +32,29 @@ export class UserService {
       languages: u.languages ?? []
     };
   }
+
+  setCurrentUser(user: UserLoggedModel) {
+    this.userSource.next(user);
+  }
+
+  // Get current user (optional)
+  getCurrentUser(): UserLoggedModel | null {
+    return this.userSource.value;
+  }
   
   getUsers(): Observable<UserDto[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/users/filter?role=1`)
+    return this.http.get<any[]>(`${this.baseUrl}/users/filter`) ///users/filter?role=1
       .pipe(
         map(response => response.map(this.mapUser))
-      );
+      );  
+    }
+
+  postUser(user: UserCreateModel): Observable<any> {
+    return this.http.post(`${this.baseUrl}/users`, user);
+  }
+
+  putUser(user: UserUpdateModel): Observable<any> {
+    return this.http.put(`${this.baseUrl}/users`, user);
   }
 
 }

@@ -71,13 +71,14 @@ export class DemandListComponent implements OnInit, AfterViewInit {
 
 
     ngOnInit(): void {
-    this.loadDemands(1, this.pageSize);
+      this.loadDemands(1, this.pageSize);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
   }
   
   
     ngAfterViewInit() {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+
     }
 
   
